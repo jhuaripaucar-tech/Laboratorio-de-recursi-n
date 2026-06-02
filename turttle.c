@@ -1,4 +1,4 @@
-#include "turtlec.h"
+#include  "turtlec/turtlec.h"
 
 void fractalTree(Turtle *t, float length, int depth){
     if(depth == 0 || length < 5)
@@ -15,18 +15,40 @@ void fractalTree(Turtle *t, float length, int depth){
     turtleLeft(t, 30);
     turtleBackward(t, length);
 }
+void variaciones(Turtle *turtle, float length, int depth) {
 
-int main(void){
+    if(depth == 0 || length < 5)
+        return;
+
+    if(depth > 5)
+        turtleSetColor(turtle, 120, 70, 20);   
+    else
+        turtleSetColor(turtle, 0, 255 , 0);     
+
+    turtleForward(turtle, length);
+
+    turtleLeft(turtle, 30);
+    variaciones(turtle, length * 0.7, depth - 1);
+
+    turtleRight(turtle, 60);
+    variaciones(turtle, length * 0.7, depth - 1);
+
+    turtleLeft(turtle, 30);
+    if(depth >= 5)
+        turtleSetColor(turtle, 120, 70, 20);
+    else
+        turtleSetColor(turtle, 0, 255, 0);
+    turtleBackward(turtle, length);
+}
+int main() {
     TurtleApp *app = turtleAppCreate(600, 600, "Arbol Fractal");
 
     if(app == NULL)
         return 0;
 
     Turtle *t = turtleAppGetTurtle(app);
-    turtleLeft(t,90); 
-    fractalTree(t, 100, 7);
-
+    turtleLeft(t, 90);   
+    variaciones(t, 100, 7);
     turtleAppRun(app);
-
     return 0;
 }
