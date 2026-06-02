@@ -71,6 +71,22 @@ void reto1(Turtle *turtle, float length, int depth) {
     turtleLeft(turtle, 30);
     turtleBackward(turtle, length);
 }
+void reto2(Turtle *turtle, float length, int depth) {
+
+    if(depth == 0 || length < 5)
+        return;
+
+    turtleForward(turtle, length);
+
+    turtleLeft(turtle, 30);
+    reto2(turtle, length * 0.6, depth - 1);
+
+    turtleRight(turtle, 60);
+    reto2(turtle, length * 0.8, depth - 1);
+
+    turtleLeft(turtle, 30);
+    turtleBackward(turtle, length);
+}
 int main() {
     TurtleApp *app = turtleAppCreate(600, 600, "Arbol Fractal");
 
@@ -79,7 +95,7 @@ int main() {
 
     Turtle *t = turtleAppGetTurtle(app);
     turtleLeft(t, 90);   
-    reto1(t, 120, 5);
+    reto2(t, 120, 5);
     turtleAppRun(app);
     return 0;
 }
