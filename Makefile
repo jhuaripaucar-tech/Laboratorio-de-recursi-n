@@ -1,11 +1,17 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -I.
-LDLIBS = -lcsfml-graphics -lcsfml-window -lcsfml-system -lm
+CC=gcc
 
 all: testLine
 
-testLine: turtlec.c examples/testLine.c turtlec.h
-	$(CC) $(CFLAGS) turtlec.c examples/testLine.c -o testLine $(LDLIBS)
+libturtle.a: turtlec.c
+	gcc -c turtlec.c
+	ar rcs libturtle.a turtlec.o
+
+testLine: testLine.c libturtle.a
+	gcc testLine.c -L. -lturtle \
+	-lcsfml-graphics \
+	-lcsfml-window \
+	-lcsfml-system \
+	-lm -o testLine
 
 clean:
-	rm -f testLine
+	rm -f *.o *.a testLine
